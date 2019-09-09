@@ -13,49 +13,45 @@ export class Tamagotchi {
   }
 
   decrementFood() {
-    let time = 0;
-    if(!sleeping) {
-      time = 30000;
-    } else {
-      time = 60000;
-    }
-    if(!dead) {
-      let foodTimer = setInterval(() => {
-        this.food--}, time);
+
+    let foodTimer = setInterval(() => {
+      if (!this.sleeping) {
+        this.food-=2;
+      }
+        else {
+          this.food-=1;
+        }}, 30000);
 
         this.warn();
         this.die();
-    } else {
-      clearInterval(foodTimer);
-    }
   }
 
   sleepState() {
-    if(!sleeping) {
-      let sleepTimer = setInterval(() => {
-        this.sleep--}, 30000);
-    } else {
-      let sleepTimer = setInterval(() => {
-        this.sleep++}, 30000);
-    }
-    this.warn();
-    this.die();
-  }
+    let sleepTimer = setInterval(() => {
+      if (!this.sleeping) {
+        this.sleep-=2;
+      }
+        else {
+          this.sleep+=2;
+        }}, 30000);
 
-  decrementFun() {
-    let time = 0;
-    if(!sleeping) {
-      time = 30000;
-    } else {
-      time = 60000;
-    }
-    if(!dead) {
-      let funTimer = setInterval(() => {
-        this.fun--}, 30000);
         this.warn();
         this.die();
     }
+
+  decrementFun() {
+    let funTimer = setInterval(() => {
+      if (!this.sleeping) {
+        this.fun-=2;
+      }
+        else {
+          this.fun-=1;
+        }}, 30000);
+
+        this.warn();
+        this.die();
   }
+
   warn() {
     if(this.food <= 0 || this.food >= 20 || this.sleep <=0 || this.fun <=0 || this.fun >= 20) {
       this.sick = true;
@@ -70,10 +66,10 @@ export class Tamagotchi {
 
   changeSleepState() {
     if(!this.dead) {
-      if(!sleeping) {
-        sleeping = true;
+      if(!this.sleeping) {
+        this.sleeping = true;
       } else {
-        sleeping = false
+        this.sleeping = false
       }
     }
   }
