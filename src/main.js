@@ -5,25 +5,23 @@ import $ from 'jquery';
 import {Memory} from './memory-game.js';
 
 $(document).ready(function() {
+  let cards = [];
   let highScore = -500;
   let findMe;
   $('#button').click(function() {
-    $("#gif").slideUp();
     $(".card img").hide();
+    $("#button").hide();
+    $("#gif").slideUp();
     let score = 0;
+    console.log(score);
     let timeInterval;
     let timer = -30;
     let start = false;
-    const cards = new Array(16);
     $("#time").text(timer);
     $("#score").text(score);
-    timeInterval = setInterval(function() {
-      timer++;
-      $("#time").text(timer);
-    }, 1000);
-    $("#button").hide();
-    for(let i=0; i<cards.length; i++) {
-      $(".card img").show();
+
+
+    for(let i=0; i<16; i++) {
       let memory = new Memory();
       let promise = memory.getGifs();
       promise.then(function(response) {
@@ -33,18 +31,32 @@ $(document).ready(function() {
       }, function(error) {
         $('.showErrors').text(`There was an error processing your request: ${error.message}`);
       });
+      if(i === 15) {
+        setTimeout(function() {
+          $(".card img").show();
+          timeInterval = setInterval(function() {
+            timer++;
+            $("#time").text(timer);
+          }, 1000);
+        }, 5000);
+      }
     }
+
 
     setTimeout(function() {
       $(".card img").fadeOut();
       start = true;
+      $("#rules").hide();
       findMe = cards[Math.floor(Math.random()*cards.length)];
       $("#gif").attr('src', findMe);
       $("#gif").slideDown();
     }, 30000);
 
     $("#gif").click(function() {
-      $("#gif").attr('src', cards[Math.floor(Math.random()*cards.length)]);
+      findMe = cards[Math.floor(Math.random()*cards.length)];
+      $("#gif").attr('src', findMe);
+      score -= 10;
+      $("#score").text(score);
     });
 
     $(".card").click(function() {
@@ -54,20 +66,24 @@ $(document).ready(function() {
         findMe = cards[Math.floor(Math.random()*cards.length)];
         $("#gif").attr('src', findMe);
         score +=20;
-        score += (30 - timer);
+        score += (30 - timer) || 0;
         $("#score").text(score);
         console.log(cards);
       } else if(start) {
         score-=5;
         $("#score").text(score);
       }
-      if (cards.length == 0 ) {
+      if (cards.length === 0 ) {
         if( score > highScore ) {
+          highScore = score;
           $("#high-score").text(score);
         }
         clearInterval(timeInterval);
         $("#button").show();
         start = false;
+        $("#rules").show();
+        console.log(cards);
+        $(".card img").fadeOut(5000);
       }
     });
 
