@@ -12,3 +12,14 @@
   border-radius: 10px;
   border: solid 3px #000000;
 }
+.jumbotron {
+  text-align: center;
+}
+#gif {
+  display: block;
+  margin-left: auto;
+  /* margin-right: auto; */
+  padding-bottom: 20px;
+  height: 300px;
+  width: 400px;
+}
