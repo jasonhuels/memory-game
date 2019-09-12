@@ -25,13 +25,16 @@ $(document).ready(function() {
     for(let i=0; i<16; i++) {
       let memory = new Memory();
       let promise = memory.getGifs();
-      console.log(promise);
       promise.then(function(response) {
         const body = JSON.parse(response);
-        cards[i] = (body.data.images.original.url);
-        // $(`img#${i}`).attr('src', cards[i]);
-        $(`div.well[title=${i}]`).html(`<img src="${cards[i]}" alt="" id='${i}'>`);
-        $(".card img").hide();
+        if(!cards.includes(body.data.images.fixed_height_small.url)) {
+          cards[i] = (body.data.images.fixed_height_small.url);
+          $(`img#${i}`).attr('src', cards[i]);
+          //$(`div.well[title=${i}]`).html(`<img src="${cards[i]}" alt="" id='${i}'>`);
+          $(".card img").hide();
+        } else {
+          i--;
+        }
       }, function(error) {
         $('.showErrors').text(`There was an error processing your request: ${error.message}`);
       });
@@ -42,7 +45,7 @@ $(document).ready(function() {
             timer++;
             $("#time").text(timer);
           }, 1000);
-        }, 5000);
+        }, 3000);
       }
     }
 
@@ -53,7 +56,7 @@ $(document).ready(function() {
       findMe = cards[Math.floor(Math.random()*cards.length)];
       $("#gif").attr('src', findMe);
       $("#gif").slideDown();
-    }, 30000);
+    }, 33000);
 
   });
 
@@ -91,9 +94,9 @@ $(document).ready(function() {
       $("#gif").hide();
       $(".card img").fadeOut(5000);
       score = 0;
-      for(let i=0; i<16; i++) {
-        $(`div.well[title=${i}]`).html("");
-      }
+      // for(let i=0; i<16; i++) {
+      //   $(`div.well[title=${i}]`).html("");
+      // }
     }
   });
 
