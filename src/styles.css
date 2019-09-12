@@ -13,7 +13,10 @@
   border: solid 3px #000000;
 }
 .jumbotron {
+  background-color: grey;
   text-align: center;
+  color: white;
+  text-shadow: 3px 3px black;
 }
 #gif {
   display: block;
@@ -22,4 +25,12 @@
   padding-bottom: 20px;
   height: 300px;
   width: 400px;
+}
+
+body {
+  background-color: lightgrey;
+}
+
+.container {
+  padding-bottom: 50px;
 }
